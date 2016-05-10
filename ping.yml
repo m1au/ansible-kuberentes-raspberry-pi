@@ -1,0 +1,8 @@
+---
+- name: add notary logs to monitor and restart log
+  hosts: all
+  become: yes
+  tasks:
+    - name: test connection
+      ping:
+

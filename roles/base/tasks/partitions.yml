@@ -1,0 +1,18 @@
+---
+- name: Create Ansible temp directory
+  file: path=/var/ansible state=directory
+
+- name: Check if filesystem has already been expanded
+  stat: path=/var/ansible/fs_expanded
+  register: fs_expanded
+
+- name: Expand filesystem to fill disk
+  command: raspi-config --expand-rootfs
+  when: fs_expanded.stat.exists == False
+  notify:
+  - restart machine
+  - waiting for server to come back
+
+- name: Mark filesystem as expanded
+  file: path=/var/ansible/fs_expanded state=touch mode="u=r,g=r,o=r"
+  when: fs_expanded.stat.exists == False
