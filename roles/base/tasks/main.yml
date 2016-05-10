@@ -1,21 +1,19 @@
 ---
-- name: "set hostname"
+- name: set hostname
   hostname: name={{ inventory_hostname }}
+
+- name: expand paritions if needed
+  include: partitions.yml
+
+- name: add and update packages
+  include: apt.yml
 
 - name: setup ssh keys
   include: user.yml
 
-- name: Expand paritions if needed
-  include: partitions.yml
+- name: Add Swapfile
+  include: swap.yml
 
-#- name: Add and update packages
-#  include: apt.yml
-
-#- name: Add Swapfile
-#  include: swap.yml
-#  vars:
-#    swap_file_path: "/swapfile"
-#    swap_file_size: "1G"
 
 #- name: Setup system parameters (boot, hosts, timzone)
 #  include: system.yml
