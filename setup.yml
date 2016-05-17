@@ -1,6 +1,6 @@
 ---
 - name: initial setup - hostname - base packages
-  hosts: nodes
+  hosts: pis
   become: yes
   become_user: root
   pre_tasks:
