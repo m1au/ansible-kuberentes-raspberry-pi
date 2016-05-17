@@ -1,0 +1,17 @@
+[Unit]
+Description=etcd Config Store
+Documentation=https://github.com/coreos/etcd
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/etcd  \
+  --data-dir=/var/lib/etcd \
+  --advertise-client-urls=http://{{ etcd_current_master }}:{{ etcd.port }},http://{{ etcd_current_master }}:{{ etcd.port_2 }} \
+  --listen-client-urls=http://{{ etcd_current_master }}:{{ etcd.port }},http://{{ etcd_current_master }}:{{ etcd.port_2 }} \
+  --listen-peer-urls=http://{{ etcd_current_master }}:{{ etcd.peer_port }},http://{{ etcd_current_master }}:{{ etcd.peer_port_2 }} \
+  --name=etcd
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
