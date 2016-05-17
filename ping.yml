@@ -1,8 +1,7 @@
 ---
-- name: add notary logs to monitor and restart log
+- name: ssh ping
   hosts: all
   become: yes
   tasks:
     - name: test connection
       ping:
-

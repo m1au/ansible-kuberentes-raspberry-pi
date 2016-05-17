@@ -10,8 +10,12 @@
   command: raspi-config --expand-rootfs
   when: fs_expanded.stat.exists == False
   notify:
-  - restart machine
-  - waiting for server to come back
+  - restart_machine
+  - waiting_come_back
+  register: reboot_after_expand
+
+- name: restart me
+  meta: flush_handlers
 
 - name: Mark filesystem as expanded
   file: path=/var/ansible/fs_expanded state=touch mode="u=r,g=r,o=r"

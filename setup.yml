@@ -1,6 +1,6 @@
 ---
 - name: initial setup - hostname - base packages
-  hosts: all
+  hosts: nodes
   become: yes
   become_user: root
   pre_tasks:
@@ -11,7 +11,5 @@
       apt: update_cache=yes
       when: ansible_date_time.epoch|float - apt_cache_stat.stat.mtime > 60*60*12
   tasks:
-#    - name: "set hostname"
-#      hostname: name={{ inventory_hostname }}
   roles:
     - base

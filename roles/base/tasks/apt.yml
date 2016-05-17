@@ -22,3 +22,6 @@
     - mtr-tiny
     - docker-hypriot
     - bridge-utils
+    - vim
+    - git
+    - apt-utils

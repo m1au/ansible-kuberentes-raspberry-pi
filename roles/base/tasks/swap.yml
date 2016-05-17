@@ -1,5 +1,4 @@
 ---
-# Taken directly from http://stackoverflow.com/questions/24765930/add-swap-memory-with-ansible
 - name: Set swap_file variable
   set_fact:
     swap_file: "{{ swap_file_path }}"

@@ -4,12 +4,10 @@ node1.internal.lan
 node2.internal.lan
 node3.internal.lan
 
-[master]
+[master0]
 node0.internal.lan
 
 [nodes]
 node1.internal.lan
-node2.internal.lan
-node3.internal.lan
 
-[all:vars] 
+[all:vars]

@@ -7,3 +7,22 @@ timezone: "Etc/UTC"
 
 swap_file_path: "/swapfile"
 swap_file_size: "1G"
+
+etcd:
+  port: 2379
+  port_2: 4001
+  peer_port: 2380
+  peer_port_2: 7001
+
+kubernetes:
+  master0: "node0.internal.lan"
+  master1: "node1.internal.lan"
+  master2: "node2.internal.lan"
+  master3: "node2.internal.lan"
+
+etcd_current_master: "{{ kubernetes.master0 }}"
+flannel_current_master: "{{ etcd_current_master }}"
+
+dns:
+  service_ip: 10.200.100.10
+  domain: cluster.local
