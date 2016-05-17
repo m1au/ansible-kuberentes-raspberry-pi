@@ -11,13 +11,13 @@
   - role: kubernetes
     mode: master
 
-#- name: Kubernetes Nodes
-#  hosts: nodes
-#  become: yes
-#  become_user: root
-#  roles:
-#  - role: flannel
-#    mode: node
-#  - docker
-#  - role: kubernetes
-#    mode: node
+- name: Kubernetes Nodes
+  hosts: nodes
+  become: yes
+  become_user: root
+  roles:
+  - role: flannel
+    mode: node
+  - docker
+  - role: kubernetes
+    mode: node

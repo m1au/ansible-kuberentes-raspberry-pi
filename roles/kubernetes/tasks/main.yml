@@ -16,11 +16,29 @@
 
 - name: Install kubelet service definition
   template: src=kubelet.service.j2 dest=/lib/systemd/system/kubelet.service owner=root group=root mode=0644
+  notify:
+  - restart_machine
+  - waiting_come_back
   register: result
+
+- name: restart me
+  meta: flush_handlers
+
+- name: correct env variables
+  lineinfile: dest=/root/.profile line='export KUBERNETES_MASTER=http://{{ etcd_current_master }}:8080' insertafter='EOF' state=present
+
+- name: correct env variables
+  lineinfile: dest=/etc/profile line='export KUBERNETES_MASTER=http://{{ etcd_current_master }}:8080' insertafter='EOF' state=present
+
+- name: Source the bash_profile file
+  become: yes
+  shell: source "/root/.profile"
+  args:
+     executable: /bin/bash
 
 - name: Reload systemd when service definition changed
   command: systemctl daemon-reload
   when: result|changed
 
 - name: Restart kubelet
-  service: name=kubelet enabled=yes state=restarted
+  service: name=kubelet enabled=yes state=restarted sleep=60

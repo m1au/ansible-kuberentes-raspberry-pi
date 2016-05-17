@@ -8,4 +8,4 @@
   when: result|changed
 
 - name: Restart docker
-  service: name=docker enabled=yes state=restarted
+  service: name=docker enabled=yes state=restarted sleep=40

@@ -10,7 +10,7 @@ spec:
       args:
         - "/hyperkube"
         - "proxy"
-        - "--master=http://etcd_current_master:8080"
+        - "--master=http://{{ etcd_current_master }}:8080"
         - "--v={{ debug_level }}"
       securityContext:
         privileged: true
