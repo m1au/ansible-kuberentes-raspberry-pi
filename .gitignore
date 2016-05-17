@@ -1,1 +1,3 @@
 *.retry
+*.org
+roles/kubernetes1/*

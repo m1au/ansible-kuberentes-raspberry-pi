@@ -1,0 +1,16 @@
+---
+etcd:
+  port: 2379
+network:
+  service_subnet: 10.200.100.0/24
+  pod_subnet: 10.1.0.0/16
+version:
+  kubernetes: 1.2.0
+images:
+  hyperkube: gcr.io/google_containers/hyperkube-arm:v{{ version.kubernetes }}
+  pause: gcr.io/google_containers/pause-arm:2.0
+k8s:
+  # Timing is good for demos. Defaults are 5min eviction and 40s node grace period
+  pod_eviction_timeout: 5s
+  node_monitor_grace_period: 10s
+debug_level: 2

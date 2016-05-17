@@ -1,0 +1,48 @@
+---
+- name: create working directory
+  file: path={{kub_root}} state=directory mode=0755
+
+- name: clone etcd repo
+  git: repo=https://github.com/coreos/etcd.git dest={{kub_root}}/etcd
+
+- name: copy etcd dockerfile
+  copy: src=Dockerfile.etcd dest={{kub_root}}/etcd/Dockerfile
+
+- name: start docker service
+  service: name=docker.service state=started
+
+- name: download go-wrapper
+  shell: curl -fsSL -o {{kub_root}}/etcd/go-wrapper https://raw.githubusercontent.com/docker-library/golang/3427e88341de17a4d8921b859180a2649e1ab96e/1.4/go-wrapper
+
+- name: build etcd docker image
+  shell: docker build -t etcd {{kub_root}}/etcd/
+
+- name: create hyperkube directory
+  file: path={{kub_root}}/images state=directory mode=0755
+
+- name: copy hyperkube dockerfile
+  copy: src=Dockerfile.hyperkube dest={{kub_root}}/images/Dockerfile
+
+- name: copy hyperkube
+  copy: src=hyperkube dest={{kub_root}}/images/hyperkube mode=0755
+
+- name: build hyperkube docker image
+  shell: docker build -t hyperkube {{kub_root}}images/
+
+- name: create kubernetes manifest directory
+  file: path= /etc/kubernetes/manifests state=directory mode=0755 recurse=true
+
+- name: copy kubernetes template to manifest dir
+  template: src=kubernetes.yml.j2 dest=/etc/kubernetes/manifests/kubernetes.yml mode=750
+
+- name: copy kubelet to usr/bin
+  copy: src=kubelet dest=/usr/bin/kubelet mode=0755
+
+- name: reload systemctl
+  shell: /bin/systemctl daemon-reload
+
+- name: start kubelet service
+  service: name=kubelet state=started
+
+- name: copy kubectl to usr/bin
+  copy: src=kubectl dest=/usr/bin/kubectl mode=0755

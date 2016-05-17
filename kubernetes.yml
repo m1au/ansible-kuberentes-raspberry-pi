@@ -1,0 +1,23 @@
+---
+- name: Kubernetes Master
+  hosts: master0
+  become: yes
+  become_user: root
+  roles:
+  - etcd
+  - role: flannel
+    mode: master
+  - docker
+  - role: kubernetes
+    mode: master
+
+#- name: Kubernetes Nodes
+#  hosts: nodes
+#  become: yes
+#  become_user: root
+#  roles:
+#  - role: flannel
+#    mode: node
+#  - docker
+#  - role: kubernetes
+#    mode: node
